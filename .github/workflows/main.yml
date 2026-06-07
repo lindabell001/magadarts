@@ -1,27 +1,28 @@
-// scan.js - MAGA DARTS Scanner
+name: MAGA DARTS Scanner
 
-const { createClient } = require('@supabase/supabase-js');
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+jobs:
+  scan:
+    runs-on: ubuntu-latest
 
-async function runScanner() {
-  try {
-    console.log("🔍 MAGA DARTS Scanner started...");
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      throw new Error("Missing Supabase environment variables");
-    }
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
 
-    console.log("✅ Connected to Supabase successfully");
-    console.log("✅ Scanner run completed");
-    process.exit(0);
-  } catch (error) {
-    console.error("❌ Scanner error:", error.message);
-    process.exit(1);
-  }
-}
+      - name: Install dependencies
+        run: npm install @supabase/supabase-js
 
-runScanner();
+      - name: Run MAGA DARTS Scanner
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scan.js
