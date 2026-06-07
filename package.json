@@ -1,0 +1,8 @@
+{
+  "name": "magadarts",
+  "version": "1.0.0",
+  "description": "MAGA DARTS Netlify Functions",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}
