@@ -14,9 +14,11 @@ async function runScanner() {
     
     // TODO: Add real #MAGADARTS search logic here later
 
-    console.log("Scanner run completed");
+    console.log("✅ Scanner run completed");
+    process.exit(0);   // Success
   } catch (error) {
-    console.error("Scanner error:", error);
+    console.error("❌ Scanner error:", error.message);
+    process.exit(1);   // Failure
   }
 }
 
